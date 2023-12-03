@@ -21,7 +21,7 @@ int _putsstr(char *str)
 
 		str++;
 	}
-	_putchar("\n");
+	_putchar('\n');
 
 	return (count);
 }
