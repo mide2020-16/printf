@@ -20,8 +20,6 @@ int _putsstr(char *str)
 		count++;
 
 		str++;
-	}
-	_putchar('\n');
-
+	}	
 	return (count);
 }

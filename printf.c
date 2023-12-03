@@ -23,13 +23,14 @@ int _printf(const char *format, ...)
 		{
 			format++;
 			count++;
-			switch (*format){
+			switch (*format)
+			{
 				case 'c':
 				{
 					char chr = (char)va_arg(args, int);
 					_putchar(chr);
-					// format++;
-					count++;					}
+					count++;
+					format++;
 					break;
 				}
 				case 's':
@@ -37,8 +38,6 @@ int _printf(const char *format, ...)
 					char *str = va_arg(args, char *);
 					str_count = _putsstr(str);
 					count += str_count;
-					//_putsstr(*str);
-					//format++;
 					break;
 				}
 				case '%':
@@ -55,8 +54,10 @@ int _printf(const char *format, ...)
 			}
 		}
 		else
+		{
 			_putchar(*format);
 			count++;
+		}
 		format++;
 	}
 	va_end(args);
