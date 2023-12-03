@@ -6,7 +6,7 @@
  *
  * @str: A string of characters
  *
- * Return: Return the string 
+ * Return: Return the string
  */
 
 int _putsstr(char *str)
@@ -16,10 +16,10 @@ int _putsstr(char *str)
 	while (*str != '\0')
 	{
 		_putchar(*str);
-		
+
 		count++;
 
 		str++;
-	}	
+	}
 	return (count);
 }

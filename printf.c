@@ -16,7 +16,6 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
-
 	while (format != NULL && *format != '\0')
 	{
 		if (*format == '%')
@@ -28,6 +27,7 @@ int _printf(const char *format, ...)
 				case 'c':
 				{
 					char chr = (char)va_arg(args, int);
+
 					_putchar(chr);
 					count++;
 					format++;
@@ -36,8 +36,18 @@ int _printf(const char *format, ...)
 				case 's':
 				{
 					char *str = va_arg(args, char *);
-					str_count = _putsstr(str);
-					count += str_count;
+
+					if (str != NULL && *str != '\0')
+					{
+						str_count = _putsstr(str);
+						count += str_count;
+						break;
+					}
+					else
+					{
+						void *err = "(nil)";
+						_putsstr(err);
+					}
 					break;
 				}
 				case '%':
