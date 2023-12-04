@@ -1,5 +1,5 @@
 #include "main.h"
-#include <stdlib.h>
+#include <stdarg.h>
 
 /**
  * _printf - pass the content of value to stdout
@@ -11,7 +11,7 @@
 
 int _printf(const char *format, ...)
 {
-	unsigned int i, count;
+	unsigned int count = 0;
 	va_list args;
 	
 	va_start(args, format);
@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
 			if (*format == 'd' || *format == 'i')
 				{
 					int integer = va_arg(args, int);			
-					int digit = _print_int(integer)
+					int digit = _print_int(integer);
 					count += digit;
 					format++;
 				}
@@ -33,7 +33,6 @@ int _printf(const char *format, ...)
 		{
 			_putchar(*format);
 			count++;
-			format++;
 		}
 		format++;
 	}
