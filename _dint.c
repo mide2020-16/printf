@@ -28,5 +28,5 @@ int _print_int(int num)
 	}
 	write(1, buffer, length);
 
-	return length;
+	return (length);
 }
