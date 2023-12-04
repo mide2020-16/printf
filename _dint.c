@@ -25,7 +25,9 @@ int _print_int(int num)
 
 		buffer[i] = buffer[j];
 		buffer[j] = temp;
+
 	}
+
 	write(1, buffer, length);
 
 	return (length);
