@@ -14,21 +14,19 @@ int _print_int(int num)
 		write(1, "-", 1);
 		temp = -temp;	/*Make the number positive for further processing*/
 	}
-	do
-	{
+	do {
 		buffer[length++] = temp % 10 + '0';
 		temp /= 10;
-
 	} while (temp > 0);
 
 	for (i = 0, j = length - 1; i < j; i++, j--)
 	{
 		char temp = buffer[i];
+
 		buffer[i] = buffer[j];
 		buffer[j] = temp;
 	}
-
 	write(1, buffer, length);
-	
+
 	return length;
 }
