@@ -53,4 +53,3 @@ int main() {
     myprintf("Hello, %s! This is a number: %d\n", "User", 42);
     return 0;
 }
-

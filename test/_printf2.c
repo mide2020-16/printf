@@ -1,52 +1,42 @@
 #include "main.h"
-#include <stdlib.h>
 #include <stdarg.h>
 
 /**
- * _printf - Prints a format to stdout
- *
- * @format: the strig to parse
- *
- * Return: Count as Success
- */
-
+ * _printf - Pirnts content to stdout
+ * @format - format to print
+ * Return - number of counts
+*/
 int _printf(const char *format, ...)
 {
-	unsigned int str_count = 0, count = 0;
+  unsigned int count = 0, str_count;
+  unsigned int int_count;
 	va_list args;
-
 	va_start(args, format);
+
 	while (format != NULL && *format != '\0')
 	{
 		if (*format == '%')
 		{
 			format++;
 			count++;
+
 			switch (*format)
 			{
 				case 'c':
 				{
-					char chr = (char)va_arg(args, int);
-
-					_putchar(chr);
+					char character = (char)va_arg(args, int);
+					_putchar(character);
 					count++;
-					format++;
 					break;
 				}
 				case 's':
 				{
-					char *str = va_arg(args, char *);
+					char *string = va_arg(args, char *);
 
-					if (str != NULL && *str != '\0')
+					if (string != NULL && *string != '\0')
 					{
-						str_count = _putsstr(str);
+						str_count = _putstr(string);
 						count += str_count;
-						break;
-					}
-					else
-					{
-						void *err = "(nil)";
-						_putsstr(err);
 					}
 					break;
 				}
@@ -54,16 +44,25 @@ int _printf(const char *format, ...)
 				{
 					_putchar('%');
 					count++;
-					break;
+				}
+				case 'd':
+       	case 'i':
+				{
+					int integer = va_arg(args, int);
+					int_count = _put_int(integer);
+					count += int_count;
+        	break;
 				}
 				default:
+				{
 					_putchar('%');
 					_putchar(*format);
 					count += 2;
+				}
 				break;
-			}
+				}
 		}
-		else
+		else 
 		{
 			_putchar(*format);
 			count++;
@@ -71,5 +70,7 @@ int _printf(const char *format, ...)
 		format++;
 	}
 	va_end(args);
+
 	return (count);
+
 }

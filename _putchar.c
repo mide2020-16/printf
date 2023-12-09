@@ -1,15 +1,6 @@
-#include "main.h"
 #include <unistd.h>
 
-/**
- * _putchar - displays a character of type char to stdout
- *
- * @c: the character
- *
- * Return: c to stdout as a SUccess
- */
-
-int _putchar(char c)
+int _putchar(char character)
 {
-	return (write(1, &c, 1));
+		return (write(1, &character, 1));
 }
