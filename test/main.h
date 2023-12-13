@@ -45,4 +45,4 @@ int _put_String(char *string); /* Writes a string to stdout, escaping non-printa
 
 int _put_pointer(void *ptr); /* Writes a pointer to stdout */
 
-#endif /* MAIN_H */
+#endif
