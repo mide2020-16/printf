@@ -60,13 +60,16 @@ int _printf(const char *format, ...)
 
       case 's':
         string = va_arg(args, char *);
+        if (string == NULL)
+        {
+          count += print_string("(null)");
+        }
         count += print_string(string);
         break;
 
       case '%':
         _putchar('%');
         count++;
-        format++;
         break;
 
       case 'd':
@@ -95,8 +98,9 @@ int _printf(const char *format, ...)
         count += print_binary(binary);
         break;
       default:
+        _putchar('%');
         _putchar(*format);
-        count++;
+        count += 2;
         break;
       }
 
