@@ -1,5 +1,6 @@
 #include "main.h"
 #include <unistd.h>
+#include <limits.h>
 
 #define BUFFER_SIZE 1024 /* Define the buffer size */
 
@@ -18,7 +19,13 @@ int print_integer(int number, int flag_plus, int flag_space, int field_width)
   char buffer[BUFFER_SIZE];
 
   temp = number;
-
+  /*is_int_min = 0;
+  
+  if (temp == INT_MIN)
+  {
+    is_int_min = 1;
+    temp++;
+  }*/
   /* Check if the temporary integer is negative */
   if (temp < 0)
   {

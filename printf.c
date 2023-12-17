@@ -11,12 +11,12 @@
 
 int _printf(const char *format, ...)
 {
-  unsigned long int long_integer;
-  unsigned short int short_integer;
-  unsigned int binary;
+  unsigned long int long_integer, unsigned_long_int;
+  unsigned short int short_integer, unsigned_short_int;
+  unsigned int binary, unsigned_int;
   char character;
   char *string;
-  int count = 0, length_modifier = 0, flag_space = 0, flag_plus = 0, field_width = 0, integer;
+  int count = 0, length_modifier = 0, flag_space = 0, flag_plus = 0, flag_hash = 0, field_width = 0, integer;
   va_list args;
 
   va_start(args, format);
@@ -33,12 +33,14 @@ int _printf(const char *format, ...)
       format++;
 
       /*Flag adjuster*/
-      while (*format == '+' || *format == ' ')
+      while (*format == '+' || *format == ' ' || *format == '#')
       {
         if (*format == '+')
           flag_plus = 1;
         else if (*format == ' ')
           flag_space = 1;
+        else if (*format == '#')
+          flag_hash = 1;
       }
       /*Calculate field width*/
       while (*format >= '0' && *format <='9')
@@ -97,16 +99,38 @@ int _printf(const char *format, ...)
         binary = va_arg(args, unsigned int);
         count += print_binary(binary);
         break;
+
+      case 'u':
+      {
+        if (length_modifier == 2)
+        {
+          unsigned_long_int = va_arg(args, long int);
+          count += print_unsigned_int(unsigned_long_int, flag_hash, field_width);
+        }
+        else if (length_modifier == 1)
+        {
+          unsigned_short_int = va_arg(args, int);
+          count += print_unsigned_int(unsigned_short_int, flag_hash, field_width);
+        }
+        else
+        {
+          unsigned_int = va_arg(args, unsigned int);
+          count += print_unsigned_int(unsigned_int, flag_hash, field_width);
+        }
+      }
+      break;
+
       default:
         _putchar('%');
         _putchar(*format);
-        count += 2;
+        count += 1;
         break;
       }
 
       field_width = 0;
       flag_plus = 0;
       flag_space = 0;
+      flag_hash = 0;
     }
     else
     {

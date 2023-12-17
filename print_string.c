@@ -3,6 +3,11 @@
 
 #define BUF_SIZE 1024
 
+/**
+ * print_string - Prints a whole string to stdout
+ * @string: the string to print out
+ * Return: counts
+*/
 int print_string(char *string)
 {
   char buffer[BUF_SIZE];
