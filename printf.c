@@ -31,7 +31,6 @@ int _printf(const char *format, ...)
     if (*format == '%')
     {
       format++;
-      count++;
 
       /*Flag adjuster*/
       while (*format == '+' || *format == ' ')
@@ -115,5 +114,5 @@ int _printf(const char *format, ...)
 
   va_end(args);
 
-  return (count - 1);
+  return (count);
 }
