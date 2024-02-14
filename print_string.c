@@ -1,40 +1,39 @@
+#include <stdarg.h>
+#include <stddef.h>
 #include "main.h"
-#include <unistd.h>
 
-#define BUF_SIZE 1024
 
 /**
- * print_string - Prints a whole string to stdout
- * @string: the string to print out
- * Return: counts
-*/
-int print_string(char *string)
+ * print_string - prints a string from va_list args
+ * @args: arguments to print string from
+ *
+ * Return: number of character printed
+ */
+int print_string(va_list args)
 {
-  char buffer[BUF_SIZE];
-  int count, buf_count;
+	char *s;
+	int size = 0, i;
+	char *nil = "(null)";
 
-  count = 0;
-  buf_count = 0;
+	s = va_arg(args, char *);
+
+	if (s == NULL)
+	{
+		for (i = 0; nil[i] != '\0'; ++i)
+		{
+			_putchar(nil[i]);
+			++size;
+		}
+	}
+	else
+	{
+		for (i = 0; s[i] != '\0'; ++i)
+		{
+			_putchar(s[i]);
+			++size;
+		}
+	}
 
 
-  while (string != NULL && *string != '\0')
-  {
-
-    buffer[buf_count++] = *string;
-    count++;
-    string++;
-
-    if (buf_count >= BUF_SIZE)
-    {
-      write(1, buffer, buf_count);
-      buf_count = 0;
-    }
-  }
-
-  if (buf_count > 0)
-  {
-    write(1, buffer, count);
-  }
-
-  return (count);
+	return (size);
 }
