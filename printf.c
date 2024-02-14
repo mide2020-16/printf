@@ -1,146 +1,72 @@
-#include "main.h"
-#include <stdarg.h>
-
-/**
- * _printf - Prints content to stdout
- * @format: The format to print the content in
- * Return: Number of characters printed (excluding the null byte used to end output to strings
- *
- * This function is similar to printf. For example, _printf("Hello %s", "World") will print "Hello World".
- */
-
-int _printf(const char *format, ...)
-{
-  unsigned long int long_integer, unsigned_long_int;
-  unsigned short int short_integer, unsigned_short_int;
-  unsigned int binary, unsigned_int;
-  char character;
-  char *string;
-  int count = 0, length_modifier = 0, flag_space = 0, flag_plus = 0, flag_hash = 0, field_width = 0, integer;
-  va_list args;
-
-  va_start(args, format);
-
-  if (format == NULL)
-  {
-    return 0;
-  }
-
-  while (*format != '\0')
-  {
-    if (*format == '%')
-    {
-      format++;
-
-      /*Flag adjuster*/
-      while (*format == '+' || *format == ' ' || *format == '#')
-      {
-        if (*format == '+')
-          flag_plus = 1;
-        else if (*format == ' ')
-          flag_space = 1;
-        else if (*format == '#')
-          flag_hash = 1;
-      }
-      /*Calculate field width*/
-      while (*format >= '0' && *format <='9')
-        field_width = field_width * 10 + (*format - '0');
-
-      /*Calculate length modifier*/
-      while (*format == 'h' || *format == 'l')
-      {
-        if (*format == 'h')
-          length_modifier = (length_modifier > 1) ? 1 : 2;
-      }
-
-      switch (*format)
-      {
-      case 'c':
-        character = (char)va_arg(args, int);
-        count += _putchar(character);
-        break;
-
-      case 's':
-        string = va_arg(args, char *);
-        if (string == NULL)
-        {
-          count += print_string("(null)");
-        }
-        count += print_string(string);
-        break;
-
-      case '%':
-        _putchar('%');
-        count++;
-        break;
-
-      case 'd':
-      case 'i':
-      {
-        if (length_modifier == 2)
-        {
-          long_integer = va_arg(args, long int);
-          count += print_integer(long_integer, flag_plus, flag_space, field_width);
-        }
-        else if (length_modifier == 1)
-        {
-          short_integer = va_arg(args, int);
-          count += print_integer(short_integer, flag_plus, flag_space, field_width);
-        }
-        else
-        {
-          integer = va_arg(args, int);
-          count += print_integer(integer, flag_plus, flag_space, field_width);
-        }
-      }
-      break;
-
-      case 'b':
-        binary = va_arg(args, unsigned int);
-        count += print_binary(binary);
-        break;
-
-      case 'u':
-      {
-        if (length_modifier == 2)
-        {
-          unsigned_long_int = va_arg(args, long int);
-          count += print_unsigned_int(unsigned_long_int, flag_hash, field_width);
-        }
-        else if (length_modifier == 1)
-        {
-          unsigned_short_int = va_arg(args, int);
-          count += print_unsigned_int(unsigned_short_int, flag_hash, field_width);
-        }
-        else
-        {
-          unsigned_int = va_arg(args, unsigned int);
-          count += print_unsigned_int(unsigned_int, flag_hash, field_width);
-        }
-      }
-      break;
-
-      default:
-        _putchar('%');
-        _putchar(*format);
-        count += 1;
-        break;
-      }
-
-      field_width = 0;
-      flag_plus = 0;
-      flag_space = 0;
-      flag_hash = 0;
-    }
-    else
-    {
-      count += _putchar(*format);
-    }
-
-    format++;
-  }
-
-  va_end(args);
-
-  return (count);
-}
+#include "main.h" 
+#include <stdio.h> 
+#include <stdarg.h> 
+  
+/** 
+ * _printf - custom implementation of printf function 
+ * @format: string to be printed and format specifiers   * 
+ * Return: number of characters printed 
+*/ 
+ int _printf(const char *format, ...) 
+ { 
+         int printed_size = 0, string_size = 0, i, spe_mode = 0, fmt_arr_size = 0; 
+         char formats_array[] = {'c', 's', 'd', 'i', '%', 'b', 'u', 'o', 'x', 'X'}; 
+         va_list args; 
+  
+         int (*printer)(va_list); 
+  
+         if (format == NULL) 
+                 return (-1); 
+         va_start(args, format); 
+         fmt_arr_size = sizeof(formats_array) / sizeof(formats_array[0]); 
+         string_size = _strlen(format); 
+  
+         for (i = 0; i < string_size; ++i) 
+         { 
+                 if (spe_mode == 1) 
+                 { 
+                         printer = get_format_function(format[i]); 
+                         printed_size += printer(args); 
+                         spe_mode = 0; 
+                 } 
+                 else 
+                 { 
+                         if (format[i] == '%') 
+                         { 
+                                 if (format[i + 1] == '\0' || format[i + 1] == ' ') 
+                                         continue; 
+                                 spe_mode = fmt_arr_checker(fmt_arr_size, formats_array, format[i + 1]); 
+                                 if (spe_mode == 1) 
+                                         continue; 
+                         } 
+                         _putchar(format[i]); 
+                         ++printed_size; 
+                 } 
+         } 
+         return (printed_size); 
+ } 
+  
+  
+ /** 
+  * fmt_arr_checker - checks if a character is in the format array 
+  * @size: size of array to check 
+  * @array: array to check 
+  * @character: character to check for 
+  * 
+  * Return: 1 if the character is present and 0 otherwise 
+  */ 
+ int fmt_arr_checker(int size, char array[], char character) 
+ { 
+         int i, result = 0; 
+  
+         for (i = 0; i < size; ++i) 
+         { 
+                 if (array[i] == character) 
+                 { 
+                         result = 1; 
+                         break; 
+                 } 
+         }
+  
+         return (result);
+ }
