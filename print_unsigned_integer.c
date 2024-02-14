@@ -1,63 +1,24 @@
+#include <stdarg.h>
 #include "main.h"
-#include <unistd.h>
+#include <stdio.h>
 
 /**
- * recursively_print_unsigned_integer - Recursively prints an unsigned integer
- * @integer: The unsigned integer
- * Return: The number of characters printed
+ * print_u_int - prints a decimal from va_list args
+ * @args: arguments to print u_int from
+ *
+ * Return: number of character printed
  */
-
-int recursively_print_unsigned_integer(unsigned int integer)
+int print_u_int(va_list args)
 {
-  int count = 0;
+	int d, printed;
 
-  /* Check if the unsigned integer is 0 */
-  if (integer == 0)
-  {
-    return (1);
-  }
+	d = va_arg(args, unsigned int);
 
-  count += recursively_print_unsigned_integer(integer / 10);
-  _putchar(integer % 10 + '0');
+	printf("the number is %d\n", d);
 
-  return (count + 1);
-}
+	printed = count_number(d);
 
-/**
- * print_unsigned_int - Prints an unsigned integer
- * @integer: The unsigned integer
- * @flag_hash: The hash flag
- * @field_width: The field width
- * Return: The number of characters printed
- */
+	print_number(d);
 
-int print_unsigned_int(unsigned int integer, int flag_hash, int field_width)
-{
-  int count = 0;
-  int f;
-
-  /* Print spaces for the field width */
-  for (f = 0; f < field_width; f++)
-  {
-    _putchar(' ');
-    count++;
-  }
-
-  /* Check if the hash flag is set */
-  if (flag_hash)
-  {
-    _putchar('#');
-    count++;
-  }
-
-  /* Check if the unsigned integer is 0 */
-  if (integer == 0)
-  {
-    _putchar('0');
-    count++;
-  }
-
-  count += recursively_print_unsigned_integer(integer);
-
-  return (count);
+	return (printed);
 }
